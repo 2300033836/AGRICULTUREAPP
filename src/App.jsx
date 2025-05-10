@@ -254,10 +254,6 @@ const [showContact, setShowContact] = useState(false);
 const [searchQuery, setSearchQuery] = useState("");
 
 
-
-
-
-
   const addToCart = (product, weightPrice) => {
     setCart((prev) => [...prev, { ...product, weightPrice }]);
     setSuccessMessage("Item added successfully to the cart 😜");
@@ -265,9 +261,6 @@ const [searchQuery, setSearchQuery] = useState("");
       setSuccessMessage("");
     }, 2500);
   };
-
-
-
 
 const getSearchResults = () => {
   const results = [];
@@ -280,18 +273,6 @@ const getSearchResults = () => {
   }
   return results;
 };
-
-
-
-
-
-
-
-
-
-
-
-
 
   return (
     <div className="app">
@@ -321,24 +302,6 @@ const getSearchResults = () => {
  🌟</marquee>
 
       {successMessage && <div className="success-message">{successMessage}</div>}
-
-
-    
- 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 {searchQuery.trim() !== "" ? (
   <div className="search-results">
