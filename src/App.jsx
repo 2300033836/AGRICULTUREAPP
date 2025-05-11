@@ -1,5 +1,8 @@
+
 import React, { useState } from "react";
 import "./App.css";
+
+
 
 const categories = [
   { name: "Vegetables", image: "vegetables.jpg" },
@@ -249,9 +252,16 @@ function App() {
   const [cart, setCart] = useState([]);
   const [showCart, setShowCart] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
-  const [showLoginModal, setShowLoginModal] = useState(false);
+   const [signupMessage, setSignupMessage] = useState("");
 const [showContact, setShowContact] = useState(false);
 const [searchQuery, setSearchQuery] = useState("");
+const [aboutSelected, setAboutSelected] = useState(false);
+const [showLogin, setShowLogin] = useState(false);
+  const [showSignup, setShowSignup] = useState(false);
+
+
+
+
 
 
   const addToCart = (product, weightPrice) => {
@@ -261,6 +271,9 @@ const [searchQuery, setSearchQuery] = useState("");
       setSuccessMessage("");
     }, 2500);
   };
+
+
+
 
 const getSearchResults = () => {
   const results = [];
@@ -274,9 +287,42 @@ const getSearchResults = () => {
   return results;
 };
 
+
+
+
+const handleOpenLogin = () => {
+    setShowLogin(true);
+    setShowSignup(false);
+  };
+
+  const handleOpenSignup = () => {
+    setShowSignup(true);
+    setShowLogin(false);
+  };
+
+   const handleRegister = () => {
+  // Example validation
+  const email = document.querySelector("input[type='email']").value;
+  if (email === "test@example.com") {
+    setSignupMessage("Email already exists ❌");
+  } else {
+    setSignupMessage("User registered successfully ✅");
+    setTimeout(() => {
+      setShowSignup(false);
+      setSignupMessage("");
+    }, 2000);
+  }
+};
+
+
+
+
+
+
   return (
     <div className="app">
       <header className="header">
+         
   <h1 className="logo">THE FARMER'S CHOICE🌱</h1>
   
   <input
@@ -290,9 +336,17 @@ const getSearchResults = () => {
 
   <nav>
     <a href="#">HOME</a>
-    <a href="#">ABOUT</a>
+  <a onClick={() => {
+  setAboutSelected(true);
+  setSelectedCategory(null);  // Close any open shop/category view
+}}>ABOUT</a>
+
     <a onClick={() => setSelectedCategory("Shop")}>SHOP</a>
-    <a onClick={() => setShowLoginModal(true)}>SIGNIN</a>
+  <a href="#" onClick={(e) => { e.preventDefault(); togglePopup(); }}>SIGNIN</a>
+
+
+
+
   </nav>
 </header>
 
@@ -302,6 +356,137 @@ const getSearchResults = () => {
  🌟</marquee>
 
       {successMessage && <div className="success-message">{successMessage}</div>}
+
+
+    
+ 
+{aboutSelected && (
+  <div className="about-section">
+    <h2>About The Farmer’s Choice 🌱</h2>
+    <p>
+      The Farmer’s Choice 🌱 is a farmer-centric web application designed to bridge the gap between rural producers and urban consumers.
+    </p>
+    <p>
+      It provides a digital marketplace where farmers can showcase their fresh produce directly to buyers.
+    </p>
+    <p>
+      The platform removes middlemen, ensuring fair pricing for farmers and affordable products for consumers.
+    </p>
+    <p>
+      With a user-friendly interface, real-time pricing, and category-based shopping, the platform empowers farmers with digital tools.
+    </p>
+    <p>
+      Secure login, a multi-language translator, and direct buyer-farmer communication promote transparency and trust.
+    </p>
+    <p>
+      Whether you're shopping for fresh vegetables, pulses, or fruits, this app simplifies the process.
+    </p>
+    <p>
+      The platform also ensures authenticity by verifying farmer identities via Aadhar submission.
+    </p>
+    <p>
+      Buyers enjoy a seamless experience with search, filtering, and cart functionalities.
+    </p>
+    <p>
+      It's more than just a marketplace—it's a movement toward sustainable, local, and tech-enabled agriculture.
+    </p>
+    <p>
+      Built using React, the app is mobile-responsive and ready to scale across regions.
+    </p>
+    <p>
+      Farmers benefit from better reach while customers get access to healthy, chemical-free produce.
+    </p>
+    <p>
+      The app supports both buyers and farmers through intuitive design and support features like Help and Contact.
+    </p>
+    <p>
+      Join us in supporting Indian agriculture and making smarter food choices.
+    </p>
+    <p>
+      From farm to fork—The Farmer’s Choice is your trusted green companion!
+    </p>
+    <button className="back-btn" onClick={() => setAboutSelected(false)}>⬅ Back</button>
+  </div>
+)}
+
+
+
+
+<div className="App">
+      <header className="header">
+        <button onClick={handleOpenLogin} className="sign-in-button">Sign In</button>
+      </header>
+
+      {/* Login Modal */}
+      {showLogin && (
+        <div className="modal">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h2>LOGIN</h2>
+              <span className="close" onClick={() => setShowLogin(false)}>&times;</span>
+            </div>
+            <div className="modal-body">
+              <label>Username</label>
+              <input type="text" placeholder="Enter your username" />
+              <label>Password</label>
+              <input type="password" placeholder="Enter your password" />
+              <button className="btn">SIGN IN</button>
+              <div className="forgot-container">
+                <a href="#">Forgot password?</a>
+              </div>
+              <div className="signup-link">
+                Don't have an account?{' '}
+                <button className="link-button" onClick={handleOpenSignup}>
+                  SIGNUP NOW
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Signup Modal */}
+      {showSignup && (
+        <div className="modal">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h2>Create an account</h2>
+              <span className="close" onClick={() => setShowSignup(false)}>&times;</span>
+            </div>
+            <div className="modal-body">
+              <label>Full Name</label>
+              <input type="text" placeholder="Enter your full name" />
+              <label>Email</label>
+              <input type="email" placeholder="Enter your email" />
+              <label>Role</label>
+              <select>
+                <option value="">Select a role</option>
+                <option value="Admin">Admin</option>
+                <option value="Farmer">Farmer</option>
+                <option value="Buyer">Buyer</option>
+              </select>
+              <label>Password</label>
+              <input type="password" placeholder="Enter your password" />
+              <label>Confirm Password</label>
+              <input type="password" placeholder="Confirm your password" />
+              <button className="btn" onClick={handleRegister}> Register</button>
+              {signupMessage && <p className="signup-message">{signupMessage}</p>}
+              <div className="signin-link">
+                Already have an account?{' '}
+                <button className="link-button" onClick={handleOpenLogin}>
+                  Signin
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  
+
+
+ 
+
 
 {searchQuery.trim() !== "" ? (
   <div className="search-results">
@@ -417,21 +602,6 @@ const getSearchResults = () => {
         </div>
       )}
 
-{showLoginModal && (
-  <div className="login-modal">
-    <div className="login-modal-content">
-      <div className="login-header">LOGIN</div>
-      <div className="login-body">
-        <label>Username</label>
-        <input type="text" placeholder="Enter your username" />
-        <label>Password</label>
-        <input type="password" placeholder="Enter your password" />
-        <button className="sign-in-btn">Sign In</button>
-        <button className="close-login" onClick={() => setShowLoginModal(false)}>Close</button>
-      </div>
-    </div>
-  </div>
-)}
 
 
 
